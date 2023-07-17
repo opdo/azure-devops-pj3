@@ -20,6 +20,7 @@ variables:
   environmentName: 'myEnv'
   # Web app name
   webAppName: 'myapplication-appservice'
+  vmName: 'myApplication-VM-vm'
 
 stages:
 #--------------------------------------------#  
@@ -194,7 +195,7 @@ stages:
               azureSubscription: '$(azureServiceConnectionId)'    # ToDo
               appName: '$(webAppName)'              # ToDo
               appType: webApp
-              package: $(Pipeline.Workspace)/fakerestapi-tests/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
+              package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
@@ -215,7 +216,7 @@ stages:
                 ./apache-jmeter-5.6.2.tgz/bin/jmeter -n -t endurancetest.jmx -j jmeter_endurancetest.log -f
                 cat jmeter_stresstest.log
                 cat jmeter_endurancetest.log
-              workingDirectory: $(Pipeline.Workspace)/jmeter-test            # ToDo: Use the artifact name from the task above
+              workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
               
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
@@ -230,8 +231,9 @@ stages:
         deploy:
           steps:
           - download: current
-            artifact: selenium-test     # ToDo: Change/provide a name
-            
+            artifact: drop-uitests     # ToDo: Change/provide a name
+            name: "download_tests"
+
           - task: Bash@3
             inputs:
               targetType: 'inline'
