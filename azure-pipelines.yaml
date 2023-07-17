@@ -226,7 +226,7 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      resourceName: '$(vmName)'
+      resourceName: $(vmName)
     strategy:
       runOnce:
         deploy:
