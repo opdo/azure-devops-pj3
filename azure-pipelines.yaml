@@ -13,13 +13,14 @@ pool: myAgentPool
 variables:
   python.version: '3.7.6'
   # ToDo: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: 'myServiceConnection'
+  azureServiceConnectionId: 'f41703a4-c2fb-44d4-8d89-05b71a0c1345'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
-  environmentName: 'test'
+  environmentName: 'myEnv'
   # Web app name
-  webAppName: 'vinhpn4udacitypj3'
+  webAppName: 'myapplication-appservice'
+
 stages:
 #--------------------------------------------#  
 # BUILD STAGE
