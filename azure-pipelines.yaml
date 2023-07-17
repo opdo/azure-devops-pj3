@@ -20,7 +20,6 @@ variables:
   environmentName: 'myEnv'
   # Web app name
   webAppName: 'myapplication-appservice'
-  vmName: 'myApplication-VM-vm'
 
 stages:
 #--------------------------------------------#  
@@ -226,7 +225,7 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      resourceName: $(vmName)
+      resourceName: 'myApplication-VM-vm'
     strategy:
       runOnce:
         deploy:
