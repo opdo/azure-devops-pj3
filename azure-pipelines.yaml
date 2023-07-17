@@ -196,6 +196,7 @@ stages:
               appName: $(appName)              # ToDo
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
+              appSettings: '-WEBSITE_RUN_FROM_PACKAGE 0'
           #--------------------------------------------#    
           # Run JMeter test suite against the App Service
           - task: CmdLine@2
