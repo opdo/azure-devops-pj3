@@ -225,7 +225,7 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      resourceName: 'myApplication-VM-vm'
+      resourceName: myApplication-VM-vm
     strategy:
       runOnce:
         deploy:
