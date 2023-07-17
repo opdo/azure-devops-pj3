@@ -20,6 +20,7 @@ variables:
   environmentName: 'myEnv'
   # Web app name
   webAppName: 'myapplication-appservice'
+  vmName: 'myApplication-VM-vm'
 
 stages:
 #--------------------------------------------#  
@@ -182,8 +183,7 @@ stages:
   # Deploy FakeRestAPI Web App
   # ToDo: Provide <environment name> you created in your DevOps project
   - deployment: FakeRestAPI
-    pool:
-      vmImage: 'Ubuntu-18.04'      
+    pool: myPool 
     environment: '$(environmentName)'   # ToDo
     strategy:
       runOnce:
@@ -226,7 +226,7 @@ stages:
     environment:
       name: '$(environmentName)'
       resourceType: VirtualMachine
-      tags: selenium
+      resourceName: '$(vmName)'
     strategy:
       runOnce:
         deploy:
