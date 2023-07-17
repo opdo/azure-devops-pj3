@@ -3,7 +3,7 @@ resource "azurerm_service_plan" "test" {
   location            = "${var.location}"
   resource_group_name = "${var.resource_group}"
   os_type             = "Windows"
-  sku_name            = "S1"
+  sku_name            = "F1"
 }
 
 resource "azurerm_linux_web_app" "test" {
@@ -13,14 +13,10 @@ resource "azurerm_linux_web_app" "test" {
   service_plan_id     = azurerm_service_plan.test.id
 
   app_settings = {
-    "WEBSITE_RUN_FROM_PACKAGE" = 0
+     "SCM_DO_BUILD_DURING_DEPLOYMENT" = "true"
+     "WEBSITE_RUN_FROM_PACKAGE" = 0
   }
   site_config {
     always_on = false
-
-    application_stack {
-      current_stack   = "dotnet"
-      dotnet_version  = "v4.0"
-    } 
   }
 }
