@@ -260,8 +260,11 @@ stages:
                     unzip -o chromedriver_linux64.zip
                     sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
                 fi
-                export PATH=$PATH:/home/testuser/app
+                export PATH=$PATH:/usr/bin/chromedriver
+                export PATH=$PATH:/home/azuredevops/app
+
                 echo "Starting Selenium Tests"
                 python3 login.py >> selenium.log
                 echo "Completed Selenium Tests. Check selenium.log for results.
-                sudo cat selenium_result.log"
+                sudo cat selenium.log
+                sudo cp selenium.log /var/log/"
