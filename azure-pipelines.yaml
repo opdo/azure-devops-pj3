@@ -283,7 +283,7 @@ stages:
                 mkdir -p $(Pipeline.Workspace)/drop-uitests/log/selenium
                 python3 login.py > $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log
                 ls $(Pipeline.Workspace)/drop-uitests/log/selenium
-                echo "Completed Selenium Tests. Check selenium.log for results.
+                echo "Completed Selenium Tests. Check selenium.log for results."
                 sudo cat $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log
           - task: PublishPipelineArtifact@1
             displayName: Publish Selenium Logs
