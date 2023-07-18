@@ -13,14 +13,14 @@ pool: myPool
 variables:
   python.version: '3.7.6'
   # ToDo: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: 'f41703a4-c2fb-44d4-8d89-05b71a0c1345'
+  azureServiceConnectionId: 'e8e5e367-3bb4-4f13-b0c8-dca1592e977b'
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
   # Environment name
   environmentName: 'myEnv'
   # Web app name
-  webAppName: 'myapplication-appservice'
-  vmName: 'myApplication-VM-vm'
+  webAppName: 'vinhpj3web-appservice'
+  vmName: 'vinhpj3web-VM-vm'
 
 stages:
 #--------------------------------------------#  
@@ -48,7 +48,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/terraform/environments/test'
         backendServiceArm: '$(azureServiceConnectionId)'
         backendAzureRmResourceGroupName: 'Azuredevops'
-        backendAzureRmStorageAccountName: 'tfstate2925517720'
+        backendAzureRmStorageAccountName: 'tfstate1354214897'
         backendAzureRmContainerName: 'tfstate'
         backendAzureRmKey: 'test.terraform.tfstate'
 
@@ -193,7 +193,7 @@ stages:
             displayName: 'Deploy Azure Web App'
             inputs:
               azureSubscription: '$(azureServiceConnectionId)'    # ToDo
-              appName: 'myApplication-AppService'              # ToDo
+              appName: 'vinhpj3web-AppService'              # ToDo
               appType: webApp
               package: $(Pipeline.Workspace)/drop-fakerestapi/$(Build.BuildId)-fakerestapi.zip      # ToDo: Use the published zip artifact. 
           #--------------------------------------------#    
