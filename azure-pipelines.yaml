@@ -213,13 +213,35 @@ stages:
                 tar -xf apache-jmeter-5.6.2.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
 
-                ./apache-jmeter-5.6.2/bin/jmeter -n -t stresstest.jmx -j jmeter_stresstest.log -f
-                ./apache-jmeter-5.6.2/bin/jmeter -n -t endurancetest.jmx -j jmeter_endurancetest.log -f
+                mkdir -p log/jmeter
+                
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t stresstest.jmx -j log/jmeter/jmeter_stresstest.log -f
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t endurancetest.jmx -j log/jmeter/jmeter_endurancetest.log -f
 
-                cat jmeter_stresstest.log
-                cat jmeter_endurancetest.log
+                cat log/jmeter/jmeter_stresstest.log
+                cat log/jmeter/jmeter_endurancetest.log
               workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
-              
+          - task: ArchiveFiles@2
+            displayName: Get jmeter_stresstest.log
+            inputs:
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter-$(Build.BuildId).zip'
+              verbose: true
+          - task: ArchiveFiles@2
+            displayName: Get jmeter_endurancetest.log
+            inputs:
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter'
+              includeRootFolder: false
+              archiveType: 'zip'
+              archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter-$(Build.BuildId).zip'
+              verbose: true
+          - task: PublishPipelineArtifact@1
+            displayName: Publish JMeter Log Files
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
+              artifactName: 'drop-jmeter-logs'
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
   # ToDo: 
@@ -253,7 +275,7 @@ stages:
                 if [ ! -d "$DIR" ]; then
                     mkdir app
                 fi
-                mv /home/azuredevops/azagent/_work/1/drop-uitests/$(Build.BuildId)-uitests.zip app
+                mv $(Pipeline.Workspace)/drop-uitests/$(Build.BuildId)-uitests.zip app
                 cd app
                 unzip -o $(Build.BuildId)-uitests.zip
                 FILE=/home/azuredevops/app/chromedriver_linux64.zip
