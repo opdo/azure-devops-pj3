@@ -285,8 +285,8 @@ stages:
                 echo "Completed Selenium Tests. Check selenium.log for results.
                 sudo cat selenium.log
 
-                mkdir -p log/selenium
-                sudo cp selenium.log log/selenium/selenium.log"
+                mkdir -p $(Pipeline.Workspace)/drop-uitests/log/selenium
+                sudo cp selenium.log $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log"
           - task: PublishPipelineArtifact@1
             displayName: Publish Selenium Logs
             inputs:
