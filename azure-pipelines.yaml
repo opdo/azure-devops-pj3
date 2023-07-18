@@ -1,4 +1,4 @@
-name: Azure Pipelines
+name: Vinh $(Date:yyyyMMdd)$(Rev:.r)
 
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
@@ -220,15 +220,15 @@ stages:
           - task: ArchiveFiles@2
             displayName: Get Jmeter Log
             inputs:
-              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/app/log/jmeter'
+              rootFolderOrFile: '$(Pipeline.Workspace)/drop-perftests/log/jmeter'
               includeRootFolder: false
               archiveType: 'zip'
-              archiveFile: '$(System.DefaultWorkingDirectory)/app/log/jmeter-$(Build.BuildId).zip'
+              archiveFile: '$(Pipeline.Workspace)/drop-perftests/log/jmeter-$(Build.BuildId).zip'
               verbose: true
           - task: PublishPipelineArtifact@1
             displayName: Publish JMeter Log Files
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/app/log/jmeter'
+              targetPath: '$(Pipeline.Workspace)/drop-perftests/log/jmeter'
               artifactName: 'drop-jmeter-logs'
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
