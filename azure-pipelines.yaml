@@ -212,8 +212,10 @@ stages:
                 wget "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.2.tgz"
                 tar -xf apache-jmeter-5.6.2.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
-                ./apache-jmeter-5.6.2.tgz/bin/jmeter -n -t stresstest.jmx -j jmeter_stresstest.log -f
-                ./apache-jmeter-5.6.2.tgz/bin/jmeter -n -t endurancetest.jmx -j jmeter_endurancetest.log -f
+
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t stresstest.jmx -j jmeter_stresstest.log -f
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t endurancetest.jmx -j jmeter_endurancetest.log -f
+
                 cat jmeter_stresstest.log
                 cat jmeter_endurancetest.log
               workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
@@ -259,7 +261,11 @@ stages:
                     LATEST=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
                     wget http://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
                     unzip -o chromedriver_linux64.zip
-                    sudo ln -s $PWD/chromedriver /usr/local/bin/chromedriver
+                    sudo mv chromedriver /usr/bin/chromedriver
+                    sudo chown root:root /usr/bin/chromedriver
+                    sudo chmod +x /usr/bin/chromedriver
+                    
+                    # sudo ln -s $PWD/chromedriver /usr/bin/chromedriver
                 fi
                 export PATH=$PATH:/usr/bin/chromedriver
                 export PATH=$PATH:/home/azuredevops/app
