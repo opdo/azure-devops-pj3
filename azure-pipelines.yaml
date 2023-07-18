@@ -212,25 +212,13 @@ stages:
                 wget "https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.2.tgz"
                 tar -xf apache-jmeter-5.6.2.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
-
-                mkdir -p log/jmeter
                 
-                ./apache-jmeter-5.6.2/bin/jmeter -n -t stresstest.jmx -j log/jmeter/jmeter_stresstest.log -f
-                ./apache-jmeter-5.6.2/bin/jmeter -n -t endurancetest.jmx -j log/jmeter/jmeter_endurancetest.log -f
-
-                cat log/jmeter/jmeter_stresstest.log
-                cat log/jmeter/jmeter_endurancetest.log
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t stresstest.jmx -l log/jmeter/stresstest.csv -e -f -o log/stress-test -j log/jmeter/jmeter_stresstest.log -f
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t endurancetest.jmx -l log/jmeter/endurancetest.csv -e -f -o log/endurance-test -j log/jmeter/jmeter_endurancetest.log -f
+              
               workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
           - task: ArchiveFiles@2
-            displayName: Get jmeter_stresstest.log
-            inputs:
-              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter'
-              includeRootFolder: false
-              archiveType: 'zip'
-              archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter-$(Build.BuildId).zip'
-              verbose: true
-          - task: ArchiveFiles@2
-            displayName: Get jmeter_endurancetest.log
+            displayName: Get Jmeter Log
             inputs:
               rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter'
               includeRootFolder: false
@@ -296,4 +284,11 @@ stages:
                 python3 login.py >> selenium.log
                 echo "Completed Selenium Tests. Check selenium.log for results.
                 sudo cat selenium.log
-                sudo cp selenium.log /var/log/"
+
+                mkdir -p log/selenium
+                sudo cp selenium.log log/selenium/selenium.log"
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Selenium Logs
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium.log'
+              artifactName: 'drop-selenium-logs'
