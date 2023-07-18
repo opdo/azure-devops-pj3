@@ -290,5 +290,5 @@ stages:
           - task: PublishPipelineArtifact@1
             displayName: Publish Selenium Logs
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/log/selenium/selenium.log'
+              targetPath: '$(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log'
               artifactName: 'drop-selenium-logs'
