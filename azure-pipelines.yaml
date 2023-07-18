@@ -285,6 +285,8 @@ stages:
                 ls $(Pipeline.Workspace)/drop-uitests/log/selenium
                 echo "Completed Selenium Tests. Check selenium.log for results."
                 sudo cat $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log
+                sudo cp $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log /var/log/selenium
+                ls /var/log/selenium
           - task: PublishPipelineArtifact@1
             displayName: Publish Selenium Logs
             inputs:
