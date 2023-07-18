@@ -76,7 +76,7 @@ def remove_cart(driver):
     assert len(cartCountElement) == 0, "Remove failed"
 
 def timestamp():
-    ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return (ts + '\t')
+    ts = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")
+    return (ts + ' ')
 
 start()
