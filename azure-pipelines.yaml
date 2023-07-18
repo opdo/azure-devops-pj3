@@ -278,15 +278,13 @@ stages:
                     # sudo ln -s $PWD/chromedriver /usr/bin/chromedriver
                 fi
                 export PATH=$PATH:/usr/bin/chromedriver
-                export PATH=$PATH:/home/azuredevops/app
 
                 echo "Starting Selenium Tests"
-                python3 login.py >> selenium.log
-                echo "Completed Selenium Tests. Check selenium.log for results.
-                sudo cat selenium.log
-
                 mkdir -p $(Pipeline.Workspace)/drop-uitests/log/selenium
-                sudo cp selenium.log $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log"
+                python3 login.py > $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log
+                ls $(Pipeline.Workspace)/drop-uitests/log/selenium
+                echo "Completed Selenium Tests. Check selenium.log for results.
+                sudo cat $(Pipeline.Workspace)/drop-uitests/log/selenium/selenium.log
           - task: PublishPipelineArtifact@1
             displayName: Publish Selenium Logs
             inputs:
