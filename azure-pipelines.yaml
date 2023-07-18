@@ -213,22 +213,22 @@ stages:
                 tar -xf apache-jmeter-5.6.2.tgz
                 unzip -o $(Build.BuildId)-perftests.zip
                 
-                ./apache-jmeter-5.6.2/bin/jmeter -n -t stresstest.jmx -l log/jmeter/stresstest.csv -e -f -o log/stress-test -j log/jmeter/jmeter_stresstest.log
-                ./apache-jmeter-5.6.2/bin/jmeter -n -t endurancetest.jmx -l log/jmeter/endurancetest.csv -e -f -o log/endurance-test -j log/jmeter/jmeter_endurancetest.log
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t stresstest.jmx -l log/jmeter/stresstest.csv -e -f -o log/jmeter/stress-test-html -j log/jmeter/jmeter_stresstest.log
+                ./apache-jmeter-5.6.2/bin/jmeter -n -t endurancetest.jmx -l log/jmeter/endurancetest.csv -e -f -o log/jmeter/endurance-test-html -j log/jmeter/jmeter_endurancetest.log
               
               workingDirectory: $(Pipeline.Workspace)/drop-perftests            # ToDo: Use the artifact name from the task above
           - task: ArchiveFiles@2
             displayName: Get Jmeter Log
             inputs:
-              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/log/jmeter'
+              rootFolderOrFile: '$(System.DefaultWorkingDirectory)/app/log/jmeter'
               includeRootFolder: false
               archiveType: 'zip'
-              archiveFile: '$(System.DefaultWorkingDirectory)/log/jmeter-$(Build.BuildId).zip'
+              archiveFile: '$(System.DefaultWorkingDirectory)/app/log/jmeter-$(Build.BuildId).zip'
               verbose: true
           - task: PublishPipelineArtifact@1
             displayName: Publish JMeter Log Files
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/log/jmeter'
+              targetPath: '$(System.DefaultWorkingDirectory)/app/log/jmeter'
               artifactName: 'drop-jmeter-logs'
   #--------------------------------------------#  
   # Selenium | Functional UI Tests
